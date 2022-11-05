@@ -42,15 +42,11 @@ const styles = StyleSheet.create({
     imageContainer: {
         flex: 2,
         display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'space-between',
+        alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'row',
         height: '100%',
         width: '100%',
-        backgroundColor: 'blue',
-        innerContainer: {
-            flex: 1,
-        }
     },
     textContainer: {
         flex: 1,

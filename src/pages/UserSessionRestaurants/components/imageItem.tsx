@@ -3,21 +3,22 @@ import { View, Image, StyleSheet, Text } from "react-native";
 
 interface ImageItemProps {
     source: string
-    description?: string
-    title?: string
+    index: number 
+    length: number
 }
 
-interface Payload {
-    item: ImageItemProps,
-    index: number
-}
 
-export const ImageItem = ({item, index}: any) => {
+export const ImageItem = ({
+    source,
+    index,
+    length
+}: ImageItemProps) => {
     return (
         <View style={styles.imageItemContainer}>
-            <Text>
-                hereee
-            </Text>
+            <Image 
+                source={{ uri: source }}
+                style={styles.image}
+            />
         </View>
     )
 }
@@ -26,9 +27,12 @@ const styles = StyleSheet.create({
     imageItemContainer: {
         width: '100%',
         height: '100%',
+        paddingHorizontal: 10
     },
     image: {
         width: '100%',
         height: '100%',
+        borderRadius: 16,
+        zIndex: 1,
     }
 })
