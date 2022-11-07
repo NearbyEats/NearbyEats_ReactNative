@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet, View } from "react-native"
-import Animated, { log, useAnimatedProps, useDerivedValue, withTiming } from "react-native-reanimated";
+import Animated, { Easing, useAnimatedProps, useDerivedValue, withTiming } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 
 interface DialProps {
@@ -40,11 +40,12 @@ export const Dial = ({
     const newOffset = useDerivedValue(() => {
         return withTiming(progress.value*fullArcOffset, {
             duration: 500,
+            easing: Easing.bezier(0.25, 0.1, 0.25, 1),
           })
     }, [progress.value])
 
     const newBOffset = useDerivedValue(() => {
-        return fullArcOffset - newOffset.value
+        return 1.005*fullArcOffset - newOffset.value
     }, [newOffset.value])
 
     const animatedBarProps = useAnimatedProps(() => {

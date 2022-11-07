@@ -22,7 +22,6 @@ export const UserSessionWaitLobby = () => {
                 barWidth='15%'
                 barColour='rgba(255, 0, 0, 1)'
                 progress={sharedProgress}
-                insideGrowRatio='50%'
             />
         </View>
         <View style={waitLobbyStyles.readyButtonContainer}>
