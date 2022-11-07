@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { useData } from "../images/data";
-import { ImageItem } from "./imageItem";
+import { ImageItem } from "./ImageItem";
 import Carousel from 'react-native-reanimated-carousel';
 
 
 export const ImageCarousel = () => {
     const data = useData 
     const width = Dimensions.get('window').width;
-    const [imageIndex, setImageIndex] = useState(0)
+    const [imageIndex, setImageIndex] = useState(1)
 
     return (
         <View style={{position: 'relative'}}>

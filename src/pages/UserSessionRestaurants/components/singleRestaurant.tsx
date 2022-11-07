@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useData } from "../images/data";
-import { ImageCarousel } from "./imageCarousel";
+import { ImageCarousel } from "./ImageCarousel";
 
 interface SingleRestaurantProps {
     name?: string,
