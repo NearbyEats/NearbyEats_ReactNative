@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, View } from 'react-native'
+import { useSharedValue } from "react-native-reanimated";
 import { Dial } from "./components/dial";
 
 export const UserSessionWaitLobby = () => {
     const [counter, setCounter] = useState<number>(0)
+    const sharedProgress = useSharedValue(0)
 
     useEffect(() => {
-        console.log(counter)
+        console.log("--- NEW USEFFECT")
+        console.log("counter", counter)
+        sharedProgress.value = counter/5
     }, [counter])
 
     return <View style={waitLobbyStyles.lobbyContainer}>
@@ -17,7 +21,8 @@ export const UserSessionWaitLobby = () => {
                 insideColour='rgba(0, 0, 255, 1)'
                 barWidth='15%'
                 barColour='rgba(255, 0, 0, 1)'
-                percent={String(counter/5*100)}
+                progress={sharedProgress}
+                insideGrowRatio='50%'
             />
         </View>
         <View style={waitLobbyStyles.readyButtonContainer}>

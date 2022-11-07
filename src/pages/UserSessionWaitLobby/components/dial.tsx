@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet, View } from "react-native"
-// import { Animated } from "react-native-reanimated";
+import Animated, { log, useAnimatedProps, useDerivedValue, withTiming } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 
 interface DialProps {
@@ -10,8 +10,10 @@ interface DialProps {
     insideColour: string,
     barWidth: string,
     barColour: string,
-    percent: string,
+    progress: Animated.SharedValue<number>,
 }
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 export const Dial = ({
     x,
@@ -21,7 +23,7 @@ export const Dial = ({
     insideColour,
     barWidth,
     barColour,
-    percent,
+    progress,
 }: DialProps) => {
 
     const toDecimal = (percent: string): number => {
@@ -32,38 +34,52 @@ export const Dial = ({
     const cardinalY = toDecimal(y) * Dimensions.get("window").height
     const cardinalRadius = cardinalX * toDecimal(insideRadius)
     const cardinalWidth = cardinalRadius * toDecimal(barWidth)
-    const fillPercent = toDecimal(percent)
-    console.log(percent)
-    console.log(fillPercent)
-    const actualRadius = insideGrowRatio !== undefined ? cardinalRadius - (1-fillPercent)*(cardinalRadius-(cardinalRadius * toDecimal(insideGrowRatio!))) : cardinalRadius
+    const actualRadius = insideGrowRatio !== undefined ? cardinalRadius - (1-progress.value)*(cardinalRadius-(cardinalRadius * toDecimal(insideGrowRatio!))) : cardinalRadius
+    const fullArcOffset = (actualRadius+cardinalWidth/2) * Math.PI * 2
+
+    const newOffset = useDerivedValue(() => {
+        return withTiming(progress.value*fullArcOffset, {
+            duration: 500,
+          })
+    }, [progress.value])
+
+    const newBOffset = useDerivedValue(() => {
+        return fullArcOffset - newOffset.value
+    }, [newOffset.value])
+
+    const animatedBarProps = useAnimatedProps(() => {
+        return {strokeDashoffset: newBOffset.value}
+    });
 
     return (
         <View style={dialStyles.svgContainer}>
             <Svg height='100%' width='100%'>
-                <Circle
+                <AnimatedCircle
                     cx={cardinalX}
                     cy={cardinalY}
                     r={actualRadius}
                     fill={insideColour}  
                 />
-                <Circle
+                <AnimatedCircle
                     cx={cardinalX}
                     cy={cardinalY}
-                    r={cardinalRadius+cardinalWidth/2}
+                    r={actualRadius+cardinalWidth/2}
                     fill="none"
                     stroke="rgba(65, 75, 75, 1)"
                     strokeWidth={cardinalWidth}
                     strokeDasharray={(actualRadius+cardinalWidth/2) * Math.PI * 2}
+                    strokeLinecap="round"
                 />
-                <Circle
+                <AnimatedCircle
+                    animatedProps={animatedBarProps}
                     cx={cardinalX}
                     cy={cardinalY}
-                    r={cardinalRadius+cardinalWidth/2}
+                    r={actualRadius+cardinalWidth/2}
                     fill="none"
                     stroke={barColour}
                     strokeWidth={cardinalWidth}
-                    strokeDasharray={((actualRadius+cardinalWidth/2) * Math.PI * 2)}
-                    strokeDashoffset={((actualRadius+cardinalWidth/2) * Math.PI * 2)*(1-fillPercent)}  
+                    strokeDasharray={fullArcOffset}
+                    strokeLinecap="round" 
                 />
             </Svg>
         </View>
