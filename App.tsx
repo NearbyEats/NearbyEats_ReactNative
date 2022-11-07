@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { UserSessionRestaurants } from './src/pages/UserSessionRestaurants/restaurants';
+import { Homepage } from './src/pages/Homepage/Homepage';
+import { UserSessionRestaurants } from './src/pages/UserSessionRestaurants/RestaurantSession';
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <UserSessionRestaurants />
+      <Homepage />
     </SafeAreaView>
   );
 }
