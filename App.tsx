@@ -1,22 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-<<<<<<< HEAD
-import { UserSessionRestaurants } from './src/pages/UserSessionRestaurants/restaurants';
-import { UserSessionWaitLobby } from './src/pages/UserSessionWaitLobby/waitlobby';
-=======
+import { QueryClient } from 'react-query';
 import { Homepage } from './src/pages/Homepage/Homepage';
 import { UserSessionRestaurants } from './src/pages/UserSessionRestaurants/RestaurantSession';
->>>>>>> initialized state machine
 
 export default function App() {
+  const queryClient = new QueryClient()
   return (
-    <SafeAreaView style={styles.container}>
-<<<<<<< HEAD
-      <UserSessionWaitLobby/>
-=======
-      <Homepage />
->>>>>>> initialized state machine
-    </SafeAreaView>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaView style={styles.container}>
+        <UserSessionRestaurants sessionId='47c2a523-32cd-4f3a-9c9f-db02098aa2e8' />
+      </SafeAreaView>
+    </QueryClientProvider>
   );
 }
 

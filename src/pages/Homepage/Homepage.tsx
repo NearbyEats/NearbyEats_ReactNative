@@ -7,8 +7,8 @@ export const Homepage = () => {
     return (
         <View style={styles.homepageContainer}>
             <View style={styles.homepageButtonsContainer}>
-                <HomepageButton text={"Create Session"} color={'blue'} />
-                <HomepageButton text={"Join Session"} color={'grey'} />
+                <HomepageButton text={"Create Session"} backgroundColor={'grey'} color={'white'} />
+                <HomepageButton text={"Join Session"} backgroundColor={'darkblue'} color={'white'} />
             </View>
         </View>
     )
@@ -17,14 +17,16 @@ export const Homepage = () => {
 interface HomepageButtonProps {
     text: string
     color: string
+    backgroundColor: string
 }
 
 const HomepageButton = ({
     text, 
-    color
+    color,
+    backgroundColor
 }: HomepageButtonProps) => {
     return (
-        <View style={styles.buttonContainer}>
+        <View style={[styles.buttonContainer, {backgroundColor: backgroundColor}]}>
             <Button 
                 onPress={() => console.log(text)}
                 title={text}
@@ -39,18 +41,22 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
     },
     homepageButtonsContainer: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        width: '100%',
     },
     buttonContainer: {
         justifyContent: 'center',
         alignItems: 'center',
         width: 140,
-        height: 40
+        height: 40,
+        borderRadius: 16,
     }
 })

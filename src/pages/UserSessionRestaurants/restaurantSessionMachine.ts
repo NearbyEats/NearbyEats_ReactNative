@@ -7,7 +7,8 @@ interface UserSessionRestaurantsContext {
 type UserSessionRestaurantsEvents = 
     {type: 'JOIN'}
     | {type: 'SET_READY'}
-    | {type: 'SEND_PREFERENCES'}
+    | {type: 'START_RATING'}
+    | {type: 'FINISH_RATING'}
     | {type: 'SEE_RESULTS'}
     | {type: 'CLOSE'}
 
@@ -25,12 +26,22 @@ export const RestaurantSessionMachine = createMachine<UserSessionRestaurantsCont
                 SET_READY: { target: 'ready' }
             }
         },
-        ready: { 
+        ready: {
             on: {
-                SEE_RESULTS: { target: 'results' }
+                START_RATING: { target: 'currentlyRating' }
+            }
+        },
+        currentlyRating: { 
+            on: {
+                FINISH_RATING: { target: 'finishedRating' }
             } 
         },
-        finished: {
+        finishedRating: {
+            on: {
+                SEE_RESULTS: { target: 'results' }
+            }
+        },
+        results: {
             on: {
                 CLOSE: { 
                     actions: ['closeSession'] 
