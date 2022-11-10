@@ -1,8 +1,10 @@
+<<<<<<< HEAD
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+=======
+>>>>>>> added state skeletons
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Homepage } from './src/pages/Homepage/Homepage';
 import { UserSessionRestaurants } from './src/pages/UserSessionRestaurants/RestaurantSession';
 
 export default function App() {
@@ -10,7 +12,11 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView style={styles.container}>
+<<<<<<< HEAD
         <UserSessionRestaurants />
+=======
+        <UserSessionRestaurants sessionId={''} />
+>>>>>>> added state skeletons
       </SafeAreaView>
     </QueryClientProvider>
   );
