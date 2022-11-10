@@ -2,38 +2,38 @@ import React from 'react'
 import { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-interface WaitingScreenProps {
+interface FinishedScreenProps {
     numOfUsersInSession: number
-    numOfUsersReady: number
+    numOfUsersFinished: number
     handleState: () => void
 }
 
-export const WaitingScreen = ({
+export const FinishedScreen = ({
     numOfUsersInSession,
-    numOfUsersReady,
+    numOfUsersFinished,
     handleState
-}: WaitingScreenProps) => {
+}: FinishedScreenProps) => {
 
     useEffect(() => {
-        if (numOfUsersReady == numOfUsersInSession) {
+        if (numOfUsersFinished == numOfUsersInSession) {
             handleState()
         }
-    }, [numOfUsersReady, numOfUsersInSession])
+    }, [numOfUsersFinished, numOfUsersInSession])
 
     return (
-        <View style={styles.waitingScreenContainer}>
+        <View style={styles.finishRatingScreenContainer}>
             <Text>
-                Waiting for everyone to ready up...
+                Waiting for everyone to finish...
             </Text>
             <Text>
-                {numOfUsersReady}/{numOfUsersInSession}
+                {numOfUsersFinished}/{numOfUsersInSession}
             </Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    waitingScreenContainer: {
+    finishRatingScreenContainer: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

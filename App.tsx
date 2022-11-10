@@ -1,7 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Homepage } from './src/pages/Homepage/Homepage';
 import { UserSessionRestaurants } from './src/pages/UserSessionRestaurants/RestaurantSession';
 
 export default function App() {
@@ -9,7 +7,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView style={styles.container}>
-        <UserSessionRestaurants sessionId='5a35f0bd-a829-4de9-88fd-6b32c7e373f2' />
+        <UserSessionRestaurants sessionId={''} />
       </SafeAreaView>
     </QueryClientProvider>
   );

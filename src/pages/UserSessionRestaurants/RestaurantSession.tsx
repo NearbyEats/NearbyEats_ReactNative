@@ -2,7 +2,10 @@ import { useMachine } from "@xstate/react";
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { JOIN_SESSION, SERVER_URL } from "../../utils/Constants";
+import { CurrentlyRatingScreen } from "./components/CurrentlyRatingScreen";
+import { FinishedScreen } from "./components/FinishedRatingScreen";
 import { JoinedScreen } from "./components/JoinedScreen";
+import { ResultsScreen } from "./components/ResultsScreen";
 import { WaitingScreen } from "./components/WaitingScreen";
 import { RestaurantSessionMachine } from "./restaurantSessionMachine";
 
@@ -19,6 +22,7 @@ export const UserSessionRestaurants = ({sessionId}: UserSessionRestaurantsProps)
             console.log('connected')
             send('JOIN')
         }
+
         websocket.onmessage = (event) => {
             console.log(event)
         }
@@ -30,7 +34,7 @@ export const UserSessionRestaurants = ({sessionId}: UserSessionRestaurantsProps)
 
     if (state.value === 'idle') {
         return (
-            <View style={styles.wrapper}>
+            <View>
                 <Text>
                     IDLE
                 </Text>
@@ -48,31 +52,41 @@ export const UserSessionRestaurants = ({sessionId}: UserSessionRestaurantsProps)
 
     if (state.value === 'ready') {
         return (
-            <WaitingScreen numOfUsersInSession={5} numOfUsersReady={3} />
+            <WaitingScreen 
+                handleState={() => {
+                    send('START_RATING')
+                }}
+                numOfUsersInSession={5}
+                numOfUsersReady={3} 
+            />
         )
     }
-    
-    return <View style={styles.wrapper}>
-        <View style={styles.restaurantWrapper}>
-            <Text>
-                Filler
-            </Text>
-        </View>
-    </View>
-}
 
-const styles = StyleSheet.create({
-    wrapper: {
-        padding: 10,
-        borderRadius: 16,
-        display: 'flex',
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    restaurantWrapper: {
-        width: '100%',
-        height: '100%',
-    },
-})
+    if (state.value === 'currentlyRating') {
+        return (
+            <CurrentlyRatingScreen handleJoin={() => {
+                send('FINISH_RATING')
+            }} /> //consider passing a function
+        )
+    }
+
+    if (state.value === 'finishedRating') {
+        return (
+            <FinishedScreen
+                numOfUsersInSession={5}
+                numOfUsersFinished={3}
+                handleState={() => {
+                    send('SEE_RESULTS')
+                }}
+            />
+        )
+    }
+
+    if (state.value === 'results') {
+        return (
+            <ResultsScreen />
+        )
+    }
+
+    return <></> // Todo: error screen
+}
