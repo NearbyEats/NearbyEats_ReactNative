@@ -2,16 +2,16 @@ import { useMachine } from "@xstate/react";
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { JOIN_SESSION, SERVER_URL } from "../../utils/Constants";
+import { JoinedScreen } from "./components/JoinedScreen";
+import { WaitingScreen } from "./components/WaitingScreen";
 import { RestaurantSessionMachine } from "./restaurantSessionMachine";
 
 interface UserSessionRestaurantsProps {
     sessionId: string
 }
 
-export const UserSessionRestaurants = ({
-    sessionId
-}: UserSessionRestaurantsProps) => {
-    const [ state, send ] = useMachine(RestaurantSessionMachine)
+export const UserSessionRestaurants = ({sessionId}: UserSessionRestaurantsProps) => {
+    const [state, send] = useMachine(RestaurantSessionMachine)
     const websocket = new WebSocket('ws://' + SERVER_URL + JOIN_SESSION + sessionId)
 
     useEffect(() => {
@@ -40,11 +40,15 @@ export const UserSessionRestaurants = ({
 
     if (state.value === 'joined') {
         return (
-            <View style={styles.wrapper}>
-                <Text>
-                    JOINED
-                </Text>
-            </View>
+            <JoinedScreen handleJoin={() => {
+                send('SET_READY')
+            }} /> //consider passing a function
+        )
+    }
+
+    if (state.value === 'ready') {
+        return (
+            <WaitingScreen numOfUsersInSession={5} numOfUsersReady={3} />
         )
     }
     

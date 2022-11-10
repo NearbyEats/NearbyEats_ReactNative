@@ -2,8 +2,6 @@ import React from "react";
 import { Button, ColorValue, StyleSheet, View } from "react-native";
 
 export const Homepage = () => {
-
-
     return (
         <View style={styles.homepageContainer}>
             <View style={styles.homepageButtonsContainer}>
