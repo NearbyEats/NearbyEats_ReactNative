@@ -1,6 +1,7 @@
 import { useMachine } from "@xstate/react";
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useAPICreateSession } from "../../http/CreateSession";
 import { JOIN_SESSION, SERVER_URL } from "../../utils/Constants";
 import { CurrentlyRatingScreen } from "./components/CurrentlyRatingScreen";
 import { FinishedScreen } from "./components/FinishedRatingScreen";
@@ -8,6 +9,7 @@ import { JoinedScreen } from "./components/JoinedScreen";
 import { ResultsScreen } from "./components/ResultsScreen";
 import { WaitingScreen } from "./components/WaitingScreen";
 import { RestaurantSessionMachine } from "./restaurantSessionMachine";
+import { parseDataHubPayload } from "./utils/DataParser";
 
 interface UserSessionRestaurantsProps {
     sessionId: string
@@ -15,26 +17,48 @@ interface UserSessionRestaurantsProps {
 
 export const UserSessionRestaurants = ({sessionId}: UserSessionRestaurantsProps) => {
     const [state, send] = useMachine(RestaurantSessionMachine)
-    const websocket = new WebSocket('ws://' + SERVER_URL + JOIN_SESSION + sessionId)
+    const {isLoading, isError, data} = useAPICreateSession()
+    console.log('DATA:' + JSON.stringify(data))
+    const websocket = new WebSocket('ws://' + SERVER_URL + JOIN_SESSION + data?.token + "/lungulescu's-lampooners")
 
     useEffect(() => {
-        websocket.onopen = () => {
-            console.log('connected')
-            send('JOIN')
+        if (!isLoading && !isError) {
+            console.log('App started') 
+            websocket.onopen = () => {
+                console.log('connected')
+                send('JOIN')
+                websocket.send(JSON.stringify({
+                    requestType: "joinSession",
+                    clientID: "lungulescu's-lampooners"
+                  }))
+            }
+    
+            websocket.onmessage = (event) => {
+                console.log('EVENT: ' + JSON.stringify(event))
+                const data = JSON.parse(event.data) 
+                //console.log("Data recieved: " + data + data.Results[0])
+                console.log('Event State: ' + data.State)
+                console.log('Machine State: ' + state.value)
+                if (data.State === 'CurrRating' && state.value === 'ready') {
+                    console.log('SET_READY')
+                    send('SET_READY')
+                } else if (data.State === 'CurrRating' && state.value === 'currentlyRating') {
+                    console.log('PARSING DATA ----')
+                    const output = parseDataHubPayload(event)
+                    console.log("PlaceApiDate: " + JSON.stringify(output.PlaceApiData))
+                }
+            }
+    
+            return () => {
+                websocket.close()
+            }
         }
-
-        websocket.onmessage = (event) => {
-            console.log(event)
-        }
-
-        return () => {
-            websocket.close()
-        }
-    }, [])
+    }, [isLoading, isError, state.value])
 
     if (state.value === 'idle') {
+        // Todo: convert to loading symbol
         return (
-            <View>
+            <View> 
                 <Text>
                     IDLE
                 </Text>
@@ -44,9 +68,17 @@ export const UserSessionRestaurants = ({sessionId}: UserSessionRestaurantsProps)
 
     if (state.value === 'joined') {
         return (
-            <JoinedScreen handleJoin={() => {
-                send('SET_READY')
-            }} /> //consider passing a function
+            <JoinedScreen 
+                handleJoin={() => {
+                    console.log('SET_READY')
+                    send('SET_READY')
+                    websocket.send(JSON.stringify({
+                        requestType : "startRating",
+                        clientID : "lungulescu's-lampooners"
+                      }))
+                }}
+                websocket={websocket}
+            /> //consider passing a function
         )
     }
 
