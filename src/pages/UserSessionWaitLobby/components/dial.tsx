@@ -37,19 +37,19 @@ export const Dial = ({
     const actualRadius = insideGrowRatio !== undefined ? cardinalRadius - (1-progress.value)*(cardinalRadius-(cardinalRadius * toDecimal(insideGrowRatio!))) : cardinalRadius
     const fullArcOffset = (actualRadius+cardinalWidth/2) * Math.PI * 2
 
-    const newOffset = useDerivedValue(() => {
+    const offsetModifier = useDerivedValue(() => {
         return withTiming(progress.value*fullArcOffset, {
             duration: 500,
             easing: Easing.bezier(0.25, 0.1, 0.25, 1),
           })
-    }, [progress.value])
+    }, [])
 
-    const newBOffset = useDerivedValue(() => {
-        return 1.005*fullArcOffset - newOffset.value
-    }, [newOffset.value])
+    const newOffset = useDerivedValue(() => {
+        return 1.005*fullArcOffset - offsetModifier.value
+    }, [])
 
     const animatedBarProps = useAnimatedProps(() => {
-        return {strokeDashoffset: newBOffset.value}
+        return {strokeDashoffset: newOffset.value}
     });
 
     return (
@@ -68,7 +68,7 @@ export const Dial = ({
                     fill="none"
                     stroke="rgba(65, 75, 75, 1)"
                     strokeWidth={cardinalWidth}
-                    strokeDasharray={(actualRadius+cardinalWidth/2) * Math.PI * 2}
+                    strokeDasharray={fullArcOffset}
                     strokeLinecap="round"
                 />
                 <AnimatedCircle
