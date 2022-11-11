@@ -13,10 +13,14 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <SafeAreaView style={styles.container}>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <UserSessionRestaurants />
 =======
         <UserSessionRestaurants sessionId={''} />
 >>>>>>> added state skeletons
+=======
+        <UserSessionRestaurants sessionId={'ab7bf3b6-7f61-4fa5-a1dc-8a8bfb03406a'} />
+>>>>>>> erik lungulescu
       </SafeAreaView>
     </QueryClientProvider>
   );

@@ -3,9 +3,10 @@ import { View, ColorValue, Button, StyleSheet } from "react-native";
 
 interface JoinedScreenProps {
     handleJoin: () => void
+    websocket: WebSocket
 }
 
-export const JoinedScreen = ({handleJoin}: JoinedScreenProps ) => {
+export const JoinedScreen = ({handleJoin, websocket}: JoinedScreenProps ) => {
     return (
         <View style={styles.joinContainer}>
             <Button 

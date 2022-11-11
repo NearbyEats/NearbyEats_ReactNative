@@ -26,7 +26,7 @@ const HomepageButton = ({
     return (
         <View style={[styles.buttonContainer, {backgroundColor: backgroundColor}]}>
             <Button 
-                onPress={() => console.log(text)}
+                onPress={() => console.log("OnPress homeButton: " + text)}
                 title={text}
                 color={color}
             />
