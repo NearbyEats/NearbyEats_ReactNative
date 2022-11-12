@@ -5,6 +5,7 @@ import React from 'react';
 >>>>>>> added state skeletons
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { CurrentlyRatingScreen } from './src/pages/UserSessionRestaurants/components/CurrentlyRatingScreen';
 import { UserSessionRestaurants } from './src/pages/UserSessionRestaurants/RestaurantSession';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
       <SafeAreaView style={styles.container}>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <UserSessionRestaurants />
 =======
         <UserSessionRestaurants sessionId={''} />
@@ -21,6 +23,10 @@ export default function App() {
 =======
         <UserSessionRestaurants sessionId={'ab7bf3b6-7f61-4fa5-a1dc-8a8bfb03406a'} />
 >>>>>>> erik lungulescu
+=======
+        {/* <UserSessionRestaurants sessionId={'ab7bf3b6-7f61-4fa5-a1dc-8a8bfb03406a'} /> */}
+        <CurrentlyRatingScreen />
+>>>>>>> base animation
       </SafeAreaView>
     </QueryClientProvider>
   );

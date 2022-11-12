@@ -1,4 +1,4 @@
-interface DataHubPayload {
+export interface DataHubPayload {
 	ClientID: string
 	State: string
 	PlaceApiData: PlacesSearchResponse
@@ -54,7 +54,7 @@ interface PlacesSearchResult {
 	// PriceLevel is the price level of the place, on a scale of 0 to 4.
 	price_level: number
 	// Vicinity contains a feature name of a nearby location. no cap
-	vicinty: string
+	vicinity: string
 	// PermanentlyClosed is a boolean flag indicating whether the place has permanently
 	// shut down.
 	permanently_close: boolean
@@ -68,7 +68,7 @@ interface PlacesSearchResult {
 export const parseDataHubPayload = (event: WebSocketMessageEvent) => {
     const data = JSON.parse(event.data)
     const payload: DataHubPayload = Object.assign(data, JSON.parse(event.data))
-    console.log("parseDataHubPayload: " + payload)
+    console.log("parseDataHubPayload: " + JSON.stringify(payload))
 	return payload
 }
 

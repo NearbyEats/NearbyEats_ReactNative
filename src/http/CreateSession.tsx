@@ -9,7 +9,7 @@ export const useAPICreateSession = () => {
         createSessionCall,
         {
             onSuccess: data => {
-                console.log("Returned from API Call: " + data)
+                // console.log("Returned from API Call: " + data)
             },
             onError: () => {
                 console.error('CREATE SESSION CALL FAILED')
@@ -20,6 +20,5 @@ export const useAPICreateSession = () => {
 
 const createSessionCall = async () => {
     const {data} = await axios.get('http://' + SERVER_URL + CREATE_SESSION)
-    console.log("Returned from createSessionCall: " + data)
     return data
 }
