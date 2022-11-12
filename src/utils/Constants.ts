@@ -1,5 +1,5 @@
 // Backend URL
-export const SERVER_URL = '192.168.0.124:8080'
+export const SERVER_URL = '192.168.2.113:8080'
 
 // Endpoints
 export const HEALTH = '/health'
