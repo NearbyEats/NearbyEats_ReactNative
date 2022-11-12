@@ -1,12 +1,14 @@
 import React, { useRef, useState } from "react";
 import { View, Button, StyleSheet, PanResponder, Animated, Image, useWindowDimensions, Text } from "react-native";
 import { useData } from '../images/data'
+import { PlacesSearchResult } from "../utils/DataParser";
 
 interface CurrentlyRatingScreenProps {
     handleJoin?: () => void
+    data: PlacesSearchResult[] | undefined
 }
 
-export const CurrentlyRatingScreen = ({handleJoin}: CurrentlyRatingScreenProps ) => {
+export const CurrentlyRatingScreen = ({handleJoin, data}: CurrentlyRatingScreenProps ) => {
     const windowSize = useWindowDimensions()
     const position = useRef(new Animated.ValueXY()).current
     const rotate = useRef(position.x.interpolate({
@@ -49,13 +51,12 @@ export const CurrentlyRatingScreen = ({handleJoin}: CurrentlyRatingScreenProps )
             }
         })
     ).current
-    const data = useData
     const [currentIndex, setCurrentIndex] = useState(0)
 
     return (
         <View style={styles.currentlyRatingContainer}>
             {
-                data.map((data, index) => {
+                data?.map((data, index) => {
                     if (index < currentIndex) {
                         return null
                     } else {
@@ -70,9 +71,10 @@ export const CurrentlyRatingScreen = ({handleJoin}: CurrentlyRatingScreenProps )
                                 }
                                 key={index}
                             >
-                                <Text>
-                                        {data.description}
-                                </Text>
+                                <SingleRestaurant 
+                                    name={data.name}
+                                    address={data.vicinity}
+                                />
                             </Animated.View>
                         )
                     }
@@ -80,6 +82,36 @@ export const CurrentlyRatingScreen = ({handleJoin}: CurrentlyRatingScreenProps )
             }
         </View>
     )
+}
+
+interface SingleRestaurantProps {
+    name?: string,
+    rating?: number,
+    address?: string,
+}
+
+export const SingleRestaurant = ({
+    name,
+    rating,
+    address,
+}: SingleRestaurantProps) => {
+    const data = useData
+
+    return <View style={styles.container}>
+        <View style={styles.imageContainer}>
+            <Text>
+                IMAGE HERE
+            </Text>
+        </View>
+        <View style={styles.textContainer}>
+            <Text style={{fontSize: 20}}>
+                {name}
+            </Text>
+            <Text style={{fontSize: 14}}>
+                {address}
+            </Text>
+        </View>
+    </View>
 }
 
 const styles = StyleSheet.create({
@@ -100,6 +132,31 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '95%',
         borderRadius: 16,
-        backgroundColor: 'red'
-    }
+        padding: 20,
+        backgroundColor: '#dcdcdc'
+    },
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '100%',
+        width: '100%',
+    },
+    imageContainer: {
+        flex: 2,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        height: '100%',
+        width: '100%',
+    },
+    textContainer: {
+        flex: 1,
+        display: 'flex',
+        width: '100%',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+    },
 })

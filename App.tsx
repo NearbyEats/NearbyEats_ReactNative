@@ -8,8 +8,8 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView style={styles.container}>
-        {/* <UserSessionRestaurants sessionId={'ab7bf3b6-7f61-4fa5-a1dc-8a8bfb03406a'} /> */}
-        <CurrentlyRatingScreen />
+        <UserSessionRestaurants sessionId={'ab7bf3b6-7f61-4fa5-a1dc-8a8bfb03406a'} />
+        {/* <CurrentlyRatingScreen /> */}
       </SafeAreaView>
     </QueryClientProvider>
   );

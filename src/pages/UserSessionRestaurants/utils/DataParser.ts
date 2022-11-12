@@ -18,7 +18,7 @@ interface PlacesSearchResponse {
 }
 
 // PlacesSearchResult is an individual Places API search result
-interface PlacesSearchResult {
+export interface PlacesSearchResult {
 	// FormattedAddress is the human-readable address of this place
 	formattedAddress: string
 	// Geometry contains geometry information about the result, generally including the
