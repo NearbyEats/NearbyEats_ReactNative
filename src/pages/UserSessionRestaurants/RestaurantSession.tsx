@@ -98,7 +98,9 @@ export const UserSessionRestaurants = ({sessionId}: UserSessionRestaurantsProps)
                     requestType : "finishRating",
                     clientID : "lungulescu's-lampooners"
                   }))
-            }} /> //consider passing a function
+            }} 
+                data={datahubPayload?.PlaceApiData.Results}
+            /> //consider passing a function
         )
     }
 
