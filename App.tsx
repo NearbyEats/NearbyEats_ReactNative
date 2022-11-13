@@ -1,7 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { CurrentlyRatingScreen } from './src/pages/UserSessionRestaurants/components/CurrentlyRatingScreen';
-import { Images } from './src/pages/UserSessionRestaurants/components/ImageApi';
 import { UserSessionRestaurants } from './src/pages/UserSessionRestaurants/RestaurantSession';
 
 export default function App() {
@@ -9,9 +7,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView style={styles.container}>
-        <UserSessionRestaurants sessionId={'ab7bf3b6-7f61-4fa5-a1dc-8a8bfb03406a'} />
-        {/* <CurrentlyRatingScreen /> */}
-        {/* <Images /> */}
+        <UserSessionRestaurants/>
       </SafeAreaView>
     </QueryClientProvider>
   );

@@ -1,15 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Button, StyleSheet, PanResponder, Animated, Image, useWindowDimensions, Text, ScaledSize } from "react-native";
 import { PLACE_API_KEY } from "../../../utils/Constants";
 import { useData } from '../images/data'
 import { Photo, PlacesSearchResult } from "../utils/DataParser";
 
 interface CurrentlyRatingScreenProps {
-    handleJoin?: () => void
+    handleFinishRating: () => void
     data: PlacesSearchResult[] | undefined
 }
 
-export const CurrentlyRatingScreen = ({handleJoin, data}: CurrentlyRatingScreenProps ) => {
+export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatingScreenProps ) => {
     const windowSize = useWindowDimensions()
     const position = useRef(new Animated.ValueXY()).current
     const rotate = useRef(position.x.interpolate({
@@ -58,6 +58,12 @@ export const CurrentlyRatingScreen = ({handleJoin, data}: CurrentlyRatingScreenP
         })
     ).current
     const [currentIndex, setCurrentIndex] = useState(0)
+
+    useEffect(() => {
+        if ( data != undefined && currentIndex >= data.length) {
+            handleFinishRating()
+        }
+    }, [currentIndex])
 
     return (
         <View style={styles.currentlyRatingContainer}>
