@@ -88,7 +88,7 @@ export const UserSessionRestaurants = ({}: UserSessionRestaurantsProps) => {
 
     if (state.value === 'currentlyRating') {
         return (
-            <CurrentlyRatingScreen handleJoin={() => {
+            <CurrentlyRatingScreen handleFinishRating={() => {
                 send('FINISH_RATING')
                 websocket.send(JSON.stringify({
                     requestType : "finishRating",
