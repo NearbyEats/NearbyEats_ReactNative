@@ -45,12 +45,7 @@ export interface PlacesSearchResult {
         open_now: boolean
     }
 	// Photos is an array of photo objects, each containing a reference to an image.
-	photo: {
-        photo_reference: string
-        height: number
-        width: number 
-        html_attributions: string[]
-    }[] 
+	photos: Photo[] 
 	// PriceLevel is the price level of the place, on a scale of 0 to 4.
 	price_level: number
 	// Vicinity contains a feature name of a nearby location. no cap
@@ -63,6 +58,13 @@ export interface PlacesSearchResult {
 	business_status: string 
 	// ID is an identifier.
 	id: string
+}
+
+export interface Photo {
+	photo_reference: string
+    height: number
+    width: number 
+    html_attributions: string[]
 }
 
 export const parseDataHubPayload = (event: WebSocketMessageEvent) => {

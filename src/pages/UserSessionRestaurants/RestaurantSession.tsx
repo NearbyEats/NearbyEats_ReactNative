@@ -12,10 +12,10 @@ import { RestaurantSessionMachine } from "./restaurantSessionMachine";
 import { DataHubPayload, parseDataHubPayload } from "./utils/DataParser";
 
 interface UserSessionRestaurantsProps {
-    sessionId: string
+    
 }
 
-export const UserSessionRestaurants = ({sessionId}: UserSessionRestaurantsProps) => {
+export const UserSessionRestaurants = ({}: UserSessionRestaurantsProps) => {
     const [state, send] = useMachine(RestaurantSessionMachine)
     const {isLoading, isError, data} = useAPICreateSession()
     const [datahubPayload, setDatahubPayload] = useState<DataHubPayload>()
@@ -47,10 +47,6 @@ export const UserSessionRestaurants = ({sessionId}: UserSessionRestaurantsProps)
             }
         }
     }, [data])
-
-    // useEffect(() => {
-    //     console.log(JSON.stringify(datahubPayload))
-    // }, [datahubPayload])
 
     if (state.value === 'idle') {
         // Todo: convert to loading symbol
