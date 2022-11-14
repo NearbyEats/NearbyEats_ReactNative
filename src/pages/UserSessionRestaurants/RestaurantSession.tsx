@@ -90,10 +90,10 @@ export const UserSessionRestaurants = ({}: UserSessionRestaurantsProps) => {
         return (
             <CurrentlyRatingScreen handleFinishRating={() => {
                 send('FINISH_RATING')
-                websocket.send(JSON.stringify({
-                    requestType : "finishRating",
-                    clientID : "lungulescu's-lampooners"
-                  }))
+                // websocket.send(JSON.stringify({
+                //     requestType : "finishRating",
+                //     clientID : "lungulescu's-lampooners"
+                //   }))
             }} 
                 data={datahubPayload?.PlaceApiData.Results}
             /> //consider passing a function
