@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 
 interface WaitingScreenProps {
     numOfUsersInSession: number
@@ -21,22 +21,24 @@ export const WaitingScreen = ({
     }, [numOfUsersReady, numOfUsersInSession])
 
     return (
-        <View style={styles.waitingScreenContainer}>
+        <SafeAreaView style={styles.waitingScreenContainer}>
             <Text>
                 Waiting for everyone to ready up...
             </Text>
             <Text>
                 {numOfUsersReady}/{numOfUsersInSession}
             </Text>
-        </View>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     waitingScreenContainer: {
+        flex: 1,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white'
     }
 })

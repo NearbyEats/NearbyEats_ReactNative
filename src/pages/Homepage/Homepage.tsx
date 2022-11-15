@@ -1,12 +1,35 @@
 import React from "react";
-import { Button, ColorValue, StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Button, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { RootStackParamList } from "../../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type HomepageNavigationProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
 
 export const Homepage = () => {
+    const navigation = useNavigation<HomepageNavigationProps>()
+
     return (
         <View style={styles.homepageContainer}>
             <View style={styles.homepageButtonsContainer}>
-                <HomepageButton text={"Create Session"} backgroundColor={'grey'} color={'white'} />
-                <HomepageButton text={"Join Session"} backgroundColor={'darkblue'} color={'white'} />
+                <HomepageButton 
+                    text={"Create Session"} 
+                    backgroundColor={'grey'} 
+                    color={'white'}
+                    onPress={() => {
+                        console.log('Routing to: CreateSession')
+                        navigation.navigate('CreateSession')
+                    }}
+                />
+                <HomepageButton 
+                    text={"Join Session"} 
+                    backgroundColor={'darkblue'} 
+                    color={'white'} 
+                    onPress={() => {
+                        console.log('JoinSession')
+                    }}
+                />
             </View>
         </View>
     )
@@ -16,21 +39,25 @@ interface HomepageButtonProps {
     text: string
     color: string
     backgroundColor: string
+    onPress: () => void
 }
 
 const HomepageButton = ({
     text, 
     color,
-    backgroundColor
-}: HomepageButtonProps) => {
+    backgroundColor,
+    onPress,
+}: HomepageButtonProps) => {    
     return (
-        <View style={[styles.buttonContainer, {backgroundColor: backgroundColor}]}>
-            <Button 
-                onPress={() => console.log("OnPress homeButton: " + text)}
-                title={text}
-                color={color}
-            />
-        </View>
+        <SafeAreaView>
+            <View style={[styles.buttonContainer, {backgroundColor: backgroundColor}]}>
+                <Button 
+                    onPress={onPress}
+                    title={text}
+                    color={color}
+                />
+            </View>
+        </SafeAreaView>
     )
 }
 
@@ -42,6 +69,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
+        backgroundColor: 'white'
     },
     homepageButtonsContainer: {
         display: 'flex',

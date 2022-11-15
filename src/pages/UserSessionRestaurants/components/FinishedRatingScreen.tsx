@@ -38,11 +38,6 @@ export const FinishedScreen = ({
                     loop
                 />
             </View>
-            <View style={styles.textContainer}>
-                <Text style={styles.bodyTextStyle}>
-                    Waiting for {numOfUsersInSession-numOfUsersFinished} people...
-                </Text>
-            </View>
         </View>
     )
 }
@@ -55,6 +50,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
+        backgroundColor: 'white'
     },
     textContainer: {
         width: '80%',

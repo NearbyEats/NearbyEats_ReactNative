@@ -9,7 +9,7 @@ export const useAPICreateSession = () => {
         createSessionCall,
         {
             onSuccess: data => {
-                // console.log("Returned from API Call: " + data)
+                console.log("Returned from API Call: " + JSON.stringify(data))
             },
             onError: () => {
                 console.error('CREATE SESSION CALL FAILED')

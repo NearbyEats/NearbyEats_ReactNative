@@ -10,6 +10,9 @@ import { ResultsScreen } from "./components/ResultsScreen";
 import { WaitingScreen } from "./components/WaitingScreen";
 import { RestaurantSessionMachine } from "./restaurantSessionMachine";
 import { DataHubPayload, parseDataHubPayload } from "./utils/DataParser";
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { RootStackParamList } from "../../../App";
+
 
 interface UserSessionRestaurantsProps {
     
@@ -17,36 +20,34 @@ interface UserSessionRestaurantsProps {
 
 export const UserSessionRestaurants = ({}: UserSessionRestaurantsProps) => {
     const [state, send] = useMachine(RestaurantSessionMachine)
-    const {isLoading, isError, data} = useAPICreateSession()
     const [datahubPayload, setDatahubPayload] = useState<DataHubPayload>()
-    const websocket = new WebSocket('ws://' + SERVER_URL + JOIN_SESSION + data?.token + "/lungulescu's-lampooners")
+    const route = useRoute<RouteProp<RootStackParamList, 'Session'>>()
+    const websocket = new WebSocket('ws://' + SERVER_URL + JOIN_SESSION + route.params.sessionId + "/lungulescu's-lampooners")
 
     useEffect(() => {
-        if (!isLoading && !isError) {
-            websocket.onopen = () => {
-                console.log('connected')
-                send('JOIN')
-                websocket.send(JSON.stringify({
-                    requestType: "joinSession",
-                    clientID: "lungulescu's-lampooners"
-                  }))
-            }
-    
-            websocket.onmessage = (event) => {
-                console.log('EVENT: ' + JSON.stringify(event))
-                const data = JSON.parse(event.data) 
-                console.log('Event State: ' + data.State)
-                if (data.State == 'CurrRating') {
-                    send('START_RATING')
-                    setDatahubPayload(() => parseDataHubPayload(event))
-                }
-            }
+        websocket.onopen = () => {
+            console.log('connected')
+            send('JOIN')
+            websocket.send(JSON.stringify({
+                requestType: "joinSession",
+                clientID: "lungulescu's-lampooners"
+                }))
+        }
 
-            return () => {
-                websocket.close()
+        websocket.onmessage = (event) => {
+            console.log('EVENT: ' + JSON.stringify(event))
+            const data = JSON.parse(event.data) 
+            console.log('Event State: ' + data.State)
+            if (data.State == 'CurrRating') {
+                send('START_RATING')
+                setDatahubPayload(() => parseDataHubPayload(event))
             }
         }
-    }, [data])
+
+        return () => {
+            websocket.close()
+        }
+    }, [])
 
     if (state.value === 'idle') {
         // Todo: convert to loading symbol
