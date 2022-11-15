@@ -1,7 +1,7 @@
 import { createMachine } from "xstate";
 
 interface UserSessionRestaurantsContext {
-
+    
 }
 
 type UserSessionRestaurantsEvents = 
@@ -14,6 +14,7 @@ type UserSessionRestaurantsEvents =
 
 export const RestaurantSessionMachine = createMachine<UserSessionRestaurantsContext, UserSessionRestaurantsEvents>({
     id: 'RestaurantSessionMachine',
+    predictableActionArguments: true,
     initial: 'idle',
     states: {
         idle: { // Once user opens the sessions screen they are on idle until the websocket 

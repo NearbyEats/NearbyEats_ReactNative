@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Button, StyleSheet, PanResponder, Animated, Image, useWindowDimensions, Text, ScaledSize } from "react-native";
+import { View, Button, StyleSheet, PanResponder, Animated, Image, useWindowDimensions, Text, ScaledSize, SafeAreaView } from "react-native";
 import { PLACE_API_KEY } from "../../../utils/Constants";
 import { useData } from '../images/data'
 import { Photo, PlacesSearchResult } from "../utils/DataParser";
@@ -32,7 +32,7 @@ export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatin
                 if (gestureState.dx > windowSize.width/3) {
                     Animated.spring(position, {
                         toValue: { x: windowSize.width+50, y: gestureState.dy },
-                        speed: 100,
+                        speed: 200,
                         useNativeDriver: true
                     }).start(() => {
                         setCurrentIndex(currentIndex => currentIndex + 1)
@@ -40,8 +40,8 @@ export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatin
                     })
                 } else if (gestureState.dx < -windowSize.width/3) {
                     Animated.spring(position, {
-                        toValue: { x: -windowSize.width-100, y: gestureState.dy },
-                        speed: 100,
+                        toValue: { x: -windowSize.width-50, y: gestureState.dy },
+                        speed: 200,
                         useNativeDriver: true
                     }).start(() => {
                         setCurrentIndex(currentIndex => currentIndex + 1)
@@ -66,35 +66,37 @@ export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatin
     }, [currentIndex])
 
     return (
-        <View style={styles.currentlyRatingContainer}>
-            {
-                data?.map((data, index) => {
-                    if (index < currentIndex) {
-                        return null
-                    } else {
-                        return (
-                            <Animated.View 
-                                {...(index == currentIndex ? panResponder.panHandlers : []) }
-                                style={
-                                    [
-                                        styles.animatedContainer, 
-                                        {transform: index == currentIndex ? [{rotate: rotate}, ...position.getTranslateTransform()] : [{scale: nextCardScale}]},
-                                    ]
-                                }
-                                key={index}
-                            >
-                                {index == currentIndex ? <PreferenceIndicator position={position} windowSize={windowSize} /> : null}
-                                <SingleRestaurant 
-                                    name={data.name}
-                                    address={data.vicinity}
-                                    photo={data.photos[0]}
-                                />
-                            </Animated.View>
-                        )
-                    }
-                }).reverse()
-            }
-        </View>
+        <SafeAreaView>
+            <View style={styles.currentlyRatingContainer}>
+                {
+                    data?.map((data, index) => {
+                        if (index < currentIndex) {
+                            return null
+                        } else {
+                            return (
+                                <Animated.View 
+                                    {...(index == currentIndex ? panResponder.panHandlers : []) }
+                                    style={
+                                        [
+                                            styles.animatedContainer, 
+                                            {transform: index == currentIndex ? [{rotate: rotate}, ...position.getTranslateTransform()] : [{scale: nextCardScale}]},
+                                        ]
+                                    }
+                                    key={index}
+                                >
+                                    {index == currentIndex ? <PreferenceIndicator position={position} windowSize={windowSize} /> : null}
+                                    <SingleRestaurant 
+                                        name={data.name}
+                                        address={data.vicinity}
+                                        photo={data.photos[0]}
+                                    />
+                                </Animated.View>
+                            )
+                        }
+                    }).reverse()
+                }
+            </View>
+        </SafeAreaView>
     )
 }
 
@@ -211,6 +213,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
+        backgroundColor: 'white',
     },
     animatedContainer: {
         display: 'flex',
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100%',
+        height: '95%',
         width: '95%',
         backgroundColor: '#ffffff',
         borderRadius: 16,
