@@ -1,7 +1,6 @@
 import { useMachine } from "@xstate/react";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { useAPICreateSession } from "../../http/CreateSession";
+import { Text, View } from "react-native";
 import { JOIN_SESSION, SERVER_URL } from "../../utils/Constants";
 import { CurrentlyRatingScreen } from "./components/CurrentlyRatingScreen";
 import { FinishedScreen } from "./components/FinishedRatingScreen";
@@ -35,16 +34,20 @@ export const UserSessionRestaurants = () => {
         }
 
         websocket.onmessage = (event) => {
-            const data = JSON.parse(event.data) 
-            console.log('Event State: ' + data.State)
-            if (data.State == 'CurrRating') {
-                setDatahubPayload(_ => parseDataHubPayload(event))
-                send('START_RATING')
-            }
-
-            if (data.State == 'Results') {
-                setDatahubPayload(_ => parseDataHubPayload(event))
-                send('SEE_RESULTS')
+            try {
+                const data = JSON.parse(event.data) 
+                console.log('Event State: ' + data.State)
+                if (data.State == 'CurrRating') {
+                    setDatahubPayload(_ => parseDataHubPayload(event))
+                    send('START_RATING')
+                }
+    
+                if (data.State == 'Results') {
+                    setDatahubPayload(_ => parseDataHubPayload(event))
+                    //send('SEE_RESULTS')
+                }
+            } catch (error) {
+                console.log(error)
             }
         }
 

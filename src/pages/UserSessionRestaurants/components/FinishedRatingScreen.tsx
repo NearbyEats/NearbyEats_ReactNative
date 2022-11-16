@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import LottieView from 'lottie-react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 interface FinishedScreenProps {
@@ -23,22 +23,17 @@ export const FinishedScreen = ({
     }, [numOfUsersFinished, numOfUsersInSession])
 
     return (
-        <View style={styles.finishRatingScreenContainer}>
+        <SafeAreaView style={styles.finishRatingScreenContainer}>
             <View style={styles.textContainer}>
                 <Text style={styles.primaryTextStyle}>
                     Sit tight, we've received your preferences!
                 </Text>
-                <LottieView 
-                    source={require('../../../assets/CookingAnimation.json')}
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                    autoPlay
-                    loop
+                <ActivityIndicator 
+                    size="large"
+                    color="blue"
                 />
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -58,7 +53,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     primaryTextStyle: {
-        fontSize: 26
+        fontSize: 26,
+        marginBottom: 50,
     },
     bodyTextStyle: {
         fontSize: 20,
