@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 25,
         borderRadius: 35,
-        backgroundColor: 'rgba(181, 181, 181, 0.8)',
+        backgroundColor: 'rgba(215, 213, 213, 0.8)',
         zIndex: 6,
         transform: [{ rotate: "-20deg" }],
     },
