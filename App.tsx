@@ -6,7 +6,7 @@ import { RestaurantSessionJoinScreen } from './src/pages/PreSession/RestaurantSe
 import { UserSessionRestaurants } from './src/pages/UserSessionRestaurants/RestaurantSession';
 
 export type RootStackParamList = {
-  Home: undefined
+  Homepage: undefined
   CreateSession: undefined
   Session: { sessionId: string }
 }
