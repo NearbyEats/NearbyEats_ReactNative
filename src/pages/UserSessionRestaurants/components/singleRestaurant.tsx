@@ -1,27 +1,34 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { PLACE_API_KEY } from "../../../utils/Constants";
 import { useData } from "../images/data";
+import { Photo } from "../utils/DataParser";
 import { ImageCarousel } from "./ImageCarousel";
 
 interface SingleRestaurantProps {
-    name?: string,
-    rating?: number,
-    address?: string,
+    name: string
+    photo: Photo
+    address: string
 }
 
 export const SingleRestaurant = ({
     name,
-    rating,
+    photo,
     address,
 }: SingleRestaurantProps) => {
     const data = useData
 
+    const photoURLFormatter = (photo: Photo) => {
+        return 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=' + photo.width + '&photo_reference=' + photo.photo_reference + '&key=' + PLACE_API_KEY
+    }
+
     return <View style={styles.container}>
-        <View style={styles.imageContainer}>
-            <ImageCarousel />
-        </View>
+        <Image 
+            style={styles.imageContainer}
+            source={{uri: photoURLFormatter(photo)}}
+        />
         <View style={styles.textContainer}>
-            <Text style={{fontSize: 20}}>
+            <Text style={{fontSize: 24, marginBottom: 5}}>
                 {name}
             </Text>
             <Text style={{fontSize: 14}}>
@@ -44,9 +51,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row',
         height: '100%',
         width: '100%',
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
     },
     textContainer: {
         flex: 1,
@@ -55,5 +63,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
+        padding: 20,
     },
 })

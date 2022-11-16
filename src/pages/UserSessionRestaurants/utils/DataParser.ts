@@ -2,7 +2,7 @@ export interface DataHubPayload {
 	ClientID: string
 	State: string
 	PlaceApiData: PlacesSearchResponse
-	ResultsData: string
+	ResultsData: any
 }
 
 // PlacesSearchResponse is the response to a Places API Search request.

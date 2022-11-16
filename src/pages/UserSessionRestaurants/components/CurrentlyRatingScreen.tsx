@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Button, StyleSheet, PanResponder, Animated, Image, useWindowDimensions, Text, ScaledSize, SafeAreaView } from "react-native";
+import { View, StyleSheet, PanResponder, Animated, Image, useWindowDimensions, Text, ScaledSize, SafeAreaView } from "react-native";
 import { PLACE_API_KEY } from "../../../utils/Constants";
 import { useData } from '../images/data'
 import { Photo, PlacesSearchResult } from "../utils/DataParser";
+import { SingleRestaurant } from "./SingleRestaurant";
 
 interface CurrentlyRatingScreenProps {
     handleFinishRating: () => void
+    handleLikeRestaurant: (restaurantId: string) => void
     data: PlacesSearchResult[] | undefined
 }
 
-export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatingScreenProps ) => {
+export const CurrentlyRatingScreen = ({handleFinishRating, handleLikeRestaurant, data}: CurrentlyRatingScreenProps ) => {
     const windowSize = useWindowDimensions()
     const position = useRef(new Animated.ValueXY()).current
     const rotate = useRef(position.x.interpolate({
@@ -22,7 +24,7 @@ export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatin
         outputRange: [1,0.8,1],
         extrapolate: 'clamp'
     })).current
-    const panResponder = useRef(
+    const panResponderRef = useRef(
         PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => true,
             onPanResponderMove: (evt, gestureState) => {
@@ -35,7 +37,10 @@ export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatin
                         speed: 200,
                         useNativeDriver: true
                     }).start(() => {
-                        setCurrentIndex(currentIndex => currentIndex + 1)
+                        setLastSwipeResult(_ => true)
+                        setCurrentIndex(currentIndex => {
+                            return currentIndex + 1
+                        })
                         position.setValue({x: 0, y: 0})
                     })
                 } else if (gestureState.dx < -windowSize.width/3) {
@@ -44,6 +49,7 @@ export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatin
                         speed: 200,
                         useNativeDriver: true
                     }).start(() => {
+                        setLastSwipeResult(_ => false)
                         setCurrentIndex(currentIndex => currentIndex + 1)
                         position.setValue({x: 0, y: 0})
                     })
@@ -56,10 +62,16 @@ export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatin
                 }
             }
         })
-    ).current
+    )
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [lastSwipeResult, setLastSwipeResult] = useState<boolean>(false)
 
     useEffect(() => {
+        if (lastSwipeResult && data != undefined) {
+            console.log('LIKED: ' + data[currentIndex-1].name)
+            //handleLikeRestaurant(data[currentIndex-1].place_id)
+        }
+
         if ( data != undefined && currentIndex >= data.length) {
             handleFinishRating()
         }
@@ -75,7 +87,7 @@ export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatin
                         } else {
                             return (
                                 <Animated.View 
-                                    {...(index == currentIndex ? panResponder.panHandlers : []) }
+                                    {...(index == currentIndex ? panResponderRef.current.panHandlers : []) }
                                     style={
                                         [
                                             styles.animatedContainer, 
@@ -98,39 +110,6 @@ export const CurrentlyRatingScreen = ({handleFinishRating, data}: CurrentlyRatin
             </View>
         </SafeAreaView>
     )
-}
-
-interface SingleRestaurantProps {
-    name: string
-    photo: Photo
-    address: string
-}
-
-const SingleRestaurant = ({
-    name,
-    photo,
-    address,
-}: SingleRestaurantProps) => {
-    const data = useData
-
-    const photoURLFormatter = (photo: Photo) => {
-        return 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=' + photo.width + '&photo_reference=' + photo.photo_reference + '&key=' + PLACE_API_KEY
-    }
-
-    return <View style={styles.container}>
-        <Image 
-            style={styles.imageContainer}
-            source={{uri: photoURLFormatter(photo)}}
-        />
-        <View style={styles.textContainer}>
-            <Text style={{fontSize: 24, marginBottom: 5}}>
-                {name}
-            </Text>
-            <Text style={{fontSize: 14}}>
-                {address}
-            </Text>
-        </View>
-    </View>
 }
 
 interface PreferenceIndicatorProps {
@@ -226,31 +205,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         borderRadius: 16,
         borderWidth: 2,
-    },
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        height: '100%',
-        width: '100%',
-    },
-    imageContainer: {
-        flex: 2,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        width: '100%',
-        borderTopLeftRadius: 16,
-        borderTopRightRadius: 16,
-    },
-    textContainer: {
-        flex: 1,
-        display: 'flex',
-        width: '100%',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        padding: 20,
     },
 })

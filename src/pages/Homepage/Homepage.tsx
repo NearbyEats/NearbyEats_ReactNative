@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { RootStackParamList } from "../../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-type HomepageNavigationProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
+type HomepageNavigationProps = NativeStackNavigationProp<RootStackParamList, 'Homepage'>
 
 export const Homepage = () => {
     const navigation = useNavigation<HomepageNavigationProps>()
