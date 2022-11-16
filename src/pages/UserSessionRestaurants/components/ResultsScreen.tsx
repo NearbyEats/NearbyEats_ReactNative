@@ -1,6 +1,6 @@
 import React from "react"
 import { Text, StyleSheet, SafeAreaView, View, Button } from "react-native"
-import { DataHubPayload, PlacesSearchResult } from "../utils/DataParser"
+import { DataHubPayload } from "../utils/DataParser"
 import { SingleRestaurant } from "./SingleRestaurant"
 
 interface ResultsScreenProps {

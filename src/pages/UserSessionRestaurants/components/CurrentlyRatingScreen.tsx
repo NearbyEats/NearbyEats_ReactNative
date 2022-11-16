@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, PanResponder, Animated, Image, useWindowDimensions, Text, ScaledSize, SafeAreaView } from "react-native";
-import { PLACE_API_KEY } from "../../../utils/Constants";
-import { useData } from '../images/data'
-import { Photo, PlacesSearchResult } from "../utils/DataParser";
+import { PlacesSearchResult } from "../utils/DataParser";
 import { SingleRestaurant } from "./SingleRestaurant";
 
 interface CurrentlyRatingScreenProps {

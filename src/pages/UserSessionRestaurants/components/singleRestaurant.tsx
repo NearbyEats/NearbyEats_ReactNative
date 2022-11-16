@@ -1,9 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { PLACE_API_KEY } from "../../../utils/Constants";
-import { useData } from "../images/data";
 import { Photo } from "../utils/DataParser";
-import { ImageCarousel } from "./ImageCarousel";
 
 interface SingleRestaurantProps {
     name: string
@@ -16,8 +14,6 @@ export const SingleRestaurant = ({
     photo,
     address,
 }: SingleRestaurantProps) => {
-    const data = useData
-
     const photoURLFormatter = (photo: Photo) => {
         return 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=' + photo.width + '&photo_reference=' + photo.photo_reference + '&key=' + PLACE_API_KEY
     }
