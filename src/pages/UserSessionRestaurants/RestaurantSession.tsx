@@ -44,7 +44,7 @@ export const UserSessionRestaurants = () => {
     
                 if (data.State == 'Results') {
                     setDatahubPayload(_ => parseDataHubPayload(event))
-                    //send('SEE_RESULTS')
+                    send('SEE_RESULTS')
                 }
             } catch (error) {
                 console.log(error)
