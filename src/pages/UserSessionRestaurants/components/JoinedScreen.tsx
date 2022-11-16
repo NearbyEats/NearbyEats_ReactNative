@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ColorValue, Button, StyleSheet, Text } from "react-native";
+import { View, Button, StyleSheet, Text } from "react-native";
 import QRCode from "react-qr-code";
 
 interface JoinedScreenProps {

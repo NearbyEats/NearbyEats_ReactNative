@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text } from 'react-native'
 
 interface WaitingScreenProps {
     numOfUsersInSession: number
