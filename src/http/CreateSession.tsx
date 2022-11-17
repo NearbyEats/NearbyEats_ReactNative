@@ -1,7 +1,6 @@
 import axios from "axios"
-import { useEffect } from "react"
-import { useQuery, useQueryClient } from "react-query"
-import { CREATE_SESSION, JOIN_SESSION, SERVER_URL } from "../utils/Constants"
+import { useQuery } from "react-query"
+import { CREATE_SESSION, SERVER_URL } from "../utils/Constants"
 
 export const useAPICreateSession = () => {
     return useQuery(

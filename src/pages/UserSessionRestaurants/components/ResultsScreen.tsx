@@ -1,7 +1,7 @@
 import React from "react"
 import { Text, StyleSheet, SafeAreaView, View, Button } from "react-native"
 import { DataHubPayload } from "../utils/DataParser"
-import { SingleRestaurant } from "./singleRestaurant"
+import { SingleRestaurant } from "./SingleRestaurant"
 
 interface ResultsScreenProps {
     data: DataHubPayload | undefined
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: '#2889b0',
         position: 'absolute',
-        bottom: 100,
+        bottom: '15%',
         zIndex: 5,
     },
     resultContainer: {
