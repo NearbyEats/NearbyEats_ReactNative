@@ -12,6 +12,7 @@ import { DataHubPayload, parseDataHubPayload } from "./utils/DataParser";
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from "../../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useQueryClient } from "react-query";
 
 
 type UserSessionRestaurantsNavigation = NativeStackNavigationProp<RootStackParamList, 'Session'>
@@ -19,9 +20,14 @@ type UserSessionRestaurantsNavigation = NativeStackNavigationProp<RootStackParam
 export const UserSessionRestaurants = () => {
     const [state, send] = useMachine(RestaurantSessionMachine)
     const [datahubPayload, setDatahubPayload] = useState<DataHubPayload>()
+    const queryClient = useQueryClient()
     const route = useRoute<RouteProp<RootStackParamList, 'Session'>>()
     const navigation = useNavigation<UserSessionRestaurantsNavigation>()
     const websocket = new WebSocket('ws://' + SERVER_URL + JOIN_SESSION + route.params.sessionId + "/lungulescu's-lampooners")
+
+    useEffect(() => {
+        console.log("sessionId: " + route.params.sessionId)
+    }, [route])
 
     useEffect(() => {
         websocket.onopen = () => {
@@ -135,6 +141,7 @@ export const UserSessionRestaurants = () => {
             <ResultsScreen 
                 data={datahubPayload}
                 handleClose={() => {
+                    queryClient.invalidateQueries()
                     navigation.navigate('Homepage')
                 }}
             />
