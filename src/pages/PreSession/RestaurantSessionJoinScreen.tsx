@@ -17,6 +17,7 @@ export const RestaurantSessionJoinScreen = () => {
     useEffect(() => {
         if (!isLoading && !isError && data !== undefined) {
             console.log('Navigating to Session')
+            console.log(data.token)
             navigation.navigate('Session', {sessionId: data.token})
         }
     }, [isLoading, isError, data])

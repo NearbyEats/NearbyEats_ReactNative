@@ -35,6 +35,7 @@ export const UserSessionRestaurants = () => {
 
         websocket.onmessage = (event) => {
             try {
+                console.log(JSON.stringify(event, null, 2))
                 const data = JSON.parse(event.data) 
                 console.log('Event State: ' + data.State)
                 if (data.State == 'CurrRating') {
