@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, PanResponder, Animated, Image, useWindowDimensions, Text, ScaledSize, SafeAreaView } from "react-native";
 import { PlacesSearchResult } from "../utils/DataParser";
-import { SingleRestaurant } from "./singleRestaurant";
+import { SingleRestaurant } from "./SingleRestaurant";
 
 interface CurrentlyRatingScreenProps {
     handleFinishRating: () => void
