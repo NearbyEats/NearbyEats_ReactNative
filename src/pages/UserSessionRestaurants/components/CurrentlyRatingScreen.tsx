@@ -67,7 +67,7 @@ export const CurrentlyRatingScreen = ({handleFinishRating, handleLikeRestaurant,
     useEffect(() => {
         if (lastSwipeResult && data != undefined) {
             console.log('LIKED: ' + data[currentIndex-1].name)
-            //handleLikeRestaurant(data[currentIndex-1].place_id)
+            handleLikeRestaurant(data[currentIndex-1].place_id)
         }
 
         if ( data != undefined && currentIndex >= data.length) {
