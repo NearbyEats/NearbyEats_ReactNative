@@ -24,10 +24,6 @@ export const UserSessionRestaurants = () => {
     const websocket = new WebSocket('ws://' + SERVER_URL + JOIN_SESSION + route.params.sessionId + "/lungulescu's-lampooners")
 
     useEffect(() => {
-        console.log("sessionId: " + route.params.sessionId)
-    }, [route])
-
-    useEffect(() => {
         websocket.onopen = () => {
             console.log('Connected')
             send('JOIN')
@@ -124,13 +120,7 @@ export const UserSessionRestaurants = () => {
 
     if (state.value === 'finishedRating') {
         return (
-            <FinishedScreen
-                numOfUsersInSession={5}
-                numOfUsersFinished={3}
-                handleState={() => {
-                    send('SEE_RESULTS')
-                }}
-            />
+            <FinishedScreen />
         )
     }
 
