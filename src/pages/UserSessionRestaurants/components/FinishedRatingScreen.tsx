@@ -5,22 +5,12 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 interface FinishedScreenProps {
-    numOfUsersInSession: number
-    numOfUsersFinished: number
-    handleState: () => void
 }
 
 export const FinishedScreen = ({
-    numOfUsersInSession,
-    numOfUsersFinished,
-    handleState
+
 }: FinishedScreenProps) => {
 
-    useEffect(() => {
-        if (numOfUsersFinished == numOfUsersInSession) {
-            handleState()
-        }
-    }, [numOfUsersFinished, numOfUsersInSession])
 
     return (
         <SafeAreaView style={styles.finishRatingScreenContainer}>
