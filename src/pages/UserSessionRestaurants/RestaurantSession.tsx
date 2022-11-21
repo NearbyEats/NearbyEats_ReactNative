@@ -1,5 +1,5 @@
 import { useMachine } from "@xstate/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import { Text, View } from "react-native";
 import { JOIN_SESSION, SERVER_URL } from "../../utils/Constants";
 import { CurrentlyRatingScreen } from "./components/CurrentlyRatingScreen";
@@ -38,14 +38,18 @@ export const UserSessionRestaurants = () => {
                 console.log(JSON.stringify(event, null, 2))
                 const data = JSON.parse(event.data) 
                 console.log('Event State: ' + data.State)
-                if (data.State == 'CurrRating') {
+                if(data.MessageType == "stateEvent"){
+                    console.log('stateEvent')
+                    if (data.State == 'CurrRating') {
+                        send('START_RATING')
+                    }
+        
+                    if (data.State == 'Results') {
+                        send('SEE_RESULTS')
+                    }
+                }else if(data.MessageType == "dataEvent"){
+                    console.log('dataEvent')
                     setDatahubPayload(_ => parseDataHubPayload(event))
-                    send('START_RATING')
-                }
-    
-                if (data.State == 'Results') {
-                    setDatahubPayload(_ => parseDataHubPayload(event))
-                    send('SEE_RESULTS')
                 }
             } catch (error) {
                 console.log(error)
