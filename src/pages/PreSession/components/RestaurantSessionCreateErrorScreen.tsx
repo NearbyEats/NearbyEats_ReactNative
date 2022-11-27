@@ -2,10 +2,10 @@ import React from "react"
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text } from "react-native"
 import Icon from 'react-native-vector-icons/Feather'
 
-export const RestaurantSessionJoinErrorScreen = () => {
+export const RestaurantSessionCreateErrorScreen = () => {
 
     return (
-        <SafeAreaView style={styles.restaurantSessionJoinErrorScreenContainer}>
+        <SafeAreaView style={styles.restaurantSessionCreateErrorScreenContainer}>
             <Text style={{fontSize: 35, fontWeight:'bold'}}>
                 Uh oh!
             </Text>
@@ -18,7 +18,7 @@ export const RestaurantSessionJoinErrorScreen = () => {
 }
 
 const styles = StyleSheet.create({
-    restaurantSessionJoinErrorScreenContainer: {
+    restaurantSessionCreateErrorScreenContainer: {
         flex: 1,
         display: 'flex',
         flexDirection: 'column',

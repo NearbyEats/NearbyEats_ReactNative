@@ -28,6 +28,7 @@ export const Homepage = () => {
                     color={'white'} 
                     onPress={() => {
                         console.log('JoinSession')
+                        navigation.navigate('JoinSession')
                     }}
                 />
             </View>

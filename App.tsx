@@ -2,12 +2,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Homepage } from './src/pages/Homepage/Homepage';
+import { RestaurantSessionCreateScreen } from './src/pages/PreSession/RestaurantSessionCreateScreen';
 import { RestaurantSessionJoinScreen } from './src/pages/PreSession/RestaurantSessionJoinScreen';
 import { UserSessionRestaurants } from './src/pages/UserSessionRestaurants/RestaurantSession';
 
 export type RootStackParamList = {
   Homepage: undefined
   CreateSession: undefined
+  JoinSession: undefined
   Session: { sessionId: string }
 }
 
@@ -20,7 +22,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
               <Stack.Screen name="Homepage" component={Homepage} />
-              <Stack.Screen name="CreateSession" component={RestaurantSessionJoinScreen} />
+              <Stack.Screen name="CreateSession" component={RestaurantSessionCreateScreen} />
+              <Stack.Screen name="JoinSession" component={RestaurantSessionJoinScreen} />
               <Stack.Screen name="Session" component={UserSessionRestaurants}/>
         </Stack.Navigator>
       </NavigationContainer>

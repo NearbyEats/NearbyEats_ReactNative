@@ -1,7 +1,7 @@
 import React from "react"
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from "react-native"
 
-export const RestaurantSessionJoinLoadingScreen = () => {
+export const RestaurantSessionCreateLoadingScreen = () => {
 
     return (
         <SafeAreaView style={styles.restaurantSessionJoinLoadingScreenContainer}>
